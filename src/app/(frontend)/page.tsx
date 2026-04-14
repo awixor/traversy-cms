@@ -6,6 +6,7 @@ import type { Where } from "payload";
 interface HomeSearchParams {
   topic?: string | string[];
   skillLevel?: string;
+  duration?: string;
 }
 
 interface HomeProps {
@@ -13,7 +14,7 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const { topic, skillLevel } = await searchParams;
+  const { topic, skillLevel, duration } = await searchParams;
 
   const payload = await getPayload({ config: configPromise });
 
@@ -29,6 +30,14 @@ export default async function Home({ searchParams }: HomeProps) {
 
   if (skillLevel) {
     where.skillLevel = { equals: skillLevel };
+  }
+
+  if (duration === "quick") {
+    where.duration = { less_than: 1800 };
+  } else if (duration === "standard") {
+    where.duration = { greater_than_equal: 1800, less_than_equal: 7200 };
+  } else if (duration === "deep") {
+    where.duration = { greater_than: 7200 };
   }
 
   const [{ docs: videos }, { docs: allTopics }] = await Promise.all([

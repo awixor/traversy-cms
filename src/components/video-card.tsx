@@ -19,12 +19,11 @@ const SKILL_COLORS: Record<NonNullable<Video["skillLevel"]>, string> = {
   advanced: "bg-red-500/20 text-red-400 border-red-500/30",
 };
 
-function formatDuration(raw: string) {
-  const match = raw.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return raw;
-  const h = parseInt(match[1] ?? "0");
-  const m = parseInt(match[2] ?? "0");
-  const s = parseInt(match[3] ?? "0");
+function formatDuration(seconds: number) {
+  if (!seconds) return null;
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
   if (h > 0) {
     return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   }
@@ -42,9 +41,10 @@ function formatDate(dateStr: string) {
 interface VideoCardProps {
   video: Video;
   shadowColor?: string;
+  priority?: boolean;
 }
 
-export function VideoCard({ video, shadowColor }: VideoCardProps) {
+export function VideoCard({ video, shadowColor, priority = false }: VideoCardProps) {
   const { title, videoId, thumbnail, duration, format, skillLevel, publishedAt } = video;
 
   return (
@@ -67,6 +67,8 @@ export function VideoCard({ video, shadowColor }: VideoCardProps) {
             src={thumbnail}
             alt={title}
             fill
+            priority={priority}
+            loading={priority ? "eager" : "lazy"}
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />

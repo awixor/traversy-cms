@@ -132,7 +132,10 @@ export interface Video {
   description?: string | null;
   publishedAt?: string | null;
   thumbnail?: string | null;
-  duration?: string | null;
+  /**
+   * Video duration in seconds (e.g. 754 = 12m 34s).
+   */
+  duration?: number | null;
   format?: ('crash_course' | 'project_build' | 'quick_tip' | 'live_stream' | 'podcast' | 'course' | 'other') | null;
   skillLevel?: ('beginner' | 'intermediate' | 'advanced') | null;
   tags?: (number | Tag)[] | null;

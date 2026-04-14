@@ -44,8 +44,13 @@ export function VideoGrid({ videos, allTopics }: VideoGridProps) {
       {videos.length === 0 ? (
         <EmptyState />
       ) : (
-        videos.map((video) => (
-          <VideoCard key={video.id} video={video} shadowColor={getShadowColor(video)} />
+        videos.map((video, index) => (
+          <VideoCard
+            key={video.id}
+            video={video}
+            shadowColor={getShadowColor(video)}
+            priority={index === 0}
+          />
         ))
       )}
     </div>

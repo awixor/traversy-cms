@@ -31,7 +31,10 @@ export const Videos: CollectionConfig = {
     },
     {
       name: "duration",
-      type: "text",
+      type: "number",
+      admin: {
+        description: "Video duration in seconds (e.g. 754 = 12m 34s).",
+      },
     },
     // Classification Fields
     {
