@@ -16,8 +16,12 @@ export const Tags: CollectionConfig = {
       type: "select",
       options: [
         { label: "Language", value: "language" },
-        { label: "Framework", value: "framework" },
+        { label: "Framework & Library", value: "framework" },
+        { label: "Database", value: "database" },
         { label: "Tool", value: "tool" },
+        { label: "Platform & Cloud", value: "platform" },
+        { label: "Service provider", value: "service" },
+        { label: "Concept & Architecture", value: "concept" },
       ],
     },
   ],

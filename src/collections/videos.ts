@@ -25,6 +25,42 @@ export const Videos: CollectionConfig = {
       name: "publishedAt",
       type: "date",
     },
+    // Classification Fields
+    {
+      name: "format",
+      type: "select",
+      options: [
+        { label: "Crash Course", value: "crash_course" },
+        { label: "Project Build", value: "project_build" },
+        { label: "Quick Tip", value: "quick_tip" },
+        { label: "Live Stream", value: "live_stream" },
+        { label: "Podcast / Interview", value: "podcast" },
+        { label: "Other", value: "other" },
+      ],
+    },
+    {
+      name: "skillLevel",
+      type: "select",
+      options: [
+        { label: "Beginner", value: "beginner" },
+        { label: "Intermediate", value: "intermediate" },
+        { label: "Advanced", value: "advanced" },
+      ],
+    },
+    {
+      name: "topic",
+      type: "select",
+      options: [
+        { label: "Frontend Development", value: "frontend" },
+        { label: "Backend Development", value: "backend" },
+        { label: "Full Stack", value: "full_stack" },
+        { label: "Mobile Development", value: "mobile" },
+        { label: "DevOps & Cloud", value: "devops" },
+        { label: "Database", value: "database" },
+        { label: "Career & General", value: "career" },
+        { label: "Other", value: "other" },
+      ],
+    },
     // The "Enhanced" part: Linking tags
     {
       name: "tags",

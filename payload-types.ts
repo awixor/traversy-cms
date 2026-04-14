@@ -129,6 +129,9 @@ export interface Video {
   youtubeId: string;
   description?: string | null;
   publishedAt?: string | null;
+  format?: ('crash_course' | 'project_build' | 'quick_tip' | 'live_stream' | 'podcast' | 'other') | null;
+  skillLevel?: ('beginner' | 'intermediate' | 'advanced') | null;
+  topic?: ('frontend' | 'backend' | 'full_stack' | 'mobile' | 'devops' | 'database' | 'career' | 'other') | null;
   tags?: (number | Tag)[] | null;
   resources?:
     | (
@@ -158,7 +161,7 @@ export interface Video {
 export interface Tag {
   id: number;
   name: string;
-  category?: ('language' | 'framework' | 'tool') | null;
+  category?: ('language' | 'framework' | 'database' | 'tool' | 'platform' | 'service' | 'concept') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -274,6 +277,9 @@ export interface VideosSelect<T extends boolean = true> {
   youtubeId?: T;
   description?: T;
   publishedAt?: T;
+  format?: T;
+  skillLevel?: T;
+  topic?: T;
   tags?: T;
   resources?:
     | T

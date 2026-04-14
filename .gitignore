@@ -41,3 +41,15 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode
+
+# generated data
+traversy_categorized_data.json
+traversy_enriched_data.json
+traversy_raw_data.json
+project-overview.md
+
+scripts/*.ts
+
+
+# claude
+.claude/
