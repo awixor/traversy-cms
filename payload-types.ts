@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     videos: Video;
     tags: Tag;
+    topics: Topic;
     'payload-kv': PayloadKv;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
@@ -79,6 +80,7 @@ export interface Config {
   collectionsSelect: {
     videos: VideosSelect<false> | VideosSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    topics: TopicsSelect<false> | TopicsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -126,13 +128,15 @@ export interface UserAuthOperations {
 export interface Video {
   id: number;
   title: string;
-  youtubeId: string;
+  videoId: string;
   description?: string | null;
   publishedAt?: string | null;
-  format?: ('crash_course' | 'project_build' | 'quick_tip' | 'live_stream' | 'podcast' | 'other') | null;
+  thumbnail?: string | null;
+  duration?: string | null;
+  format?: ('crash_course' | 'project_build' | 'quick_tip' | 'live_stream' | 'podcast' | 'course' | 'other') | null;
   skillLevel?: ('beginner' | 'intermediate' | 'advanced') | null;
-  topic?: ('frontend' | 'backend' | 'full_stack' | 'mobile' | 'devops' | 'database' | 'career' | 'other') | null;
   tags?: (number | Tag)[] | null;
+  topics?: (number | Topic)[] | null;
   resources?:
     | (
         | {
@@ -162,6 +166,16 @@ export interface Tag {
   id: number;
   name: string;
   category?: ('language' | 'framework' | 'database' | 'tool' | 'platform' | 'service' | 'concept') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "topics".
+ */
+export interface Topic {
+  id: number;
+  name: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -223,6 +237,10 @@ export interface PayloadLockedDocument {
         value: number | Tag;
       } | null)
     | ({
+        relationTo: 'topics';
+        value: number | Topic;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null);
@@ -274,13 +292,15 @@ export interface PayloadMigration {
  */
 export interface VideosSelect<T extends boolean = true> {
   title?: T;
-  youtubeId?: T;
+  videoId?: T;
   description?: T;
   publishedAt?: T;
+  thumbnail?: T;
+  duration?: T;
   format?: T;
   skillLevel?: T;
-  topic?: T;
   tags?: T;
+  topics?: T;
   resources?:
     | T
     | {
@@ -311,6 +331,15 @@ export interface VideosSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
   category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "topics_select".
+ */
+export interface TopicsSelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -11,7 +11,7 @@ export const Videos: CollectionConfig = {
       required: true,
     },
     {
-      name: "youtubeId",
+      name: "videoId",
       type: "text",
       required: true,
       unique: true, // Prevents duplicate indexing
@@ -25,6 +25,14 @@ export const Videos: CollectionConfig = {
       name: "publishedAt",
       type: "date",
     },
+    {
+      name: "thumbnail",
+      type: "text",
+    },
+    {
+      name: "duration",
+      type: "text",
+    },
     // Classification Fields
     {
       name: "format",
@@ -35,6 +43,7 @@ export const Videos: CollectionConfig = {
         { label: "Quick Tip", value: "quick_tip" },
         { label: "Live Stream", value: "live_stream" },
         { label: "Podcast / Interview", value: "podcast" },
+        { label: "Course", value: "course" },
         { label: "Other", value: "other" },
       ],
     },
@@ -47,25 +56,17 @@ export const Videos: CollectionConfig = {
         { label: "Advanced", value: "advanced" },
       ],
     },
-    {
-      name: "topic",
-      type: "select",
-      options: [
-        { label: "Frontend Development", value: "frontend" },
-        { label: "Backend Development", value: "backend" },
-        { label: "Full Stack", value: "full_stack" },
-        { label: "Mobile Development", value: "mobile" },
-        { label: "DevOps & Cloud", value: "devops" },
-        { label: "Database", value: "database" },
-        { label: "Career & General", value: "career" },
-        { label: "Other", value: "other" },
-      ],
-    },
     // The "Enhanced" part: Linking tags
     {
       name: "tags",
       type: "relationship",
       relationTo: "tags",
+      hasMany: true,
+    },
+    {
+      name: "topics",
+      type: "relationship",
+      relationTo: "topics",
       hasMany: true,
     },
     // Adding custom blocks for code snippets/resources

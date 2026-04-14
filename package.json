@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint",
     "extract": "node --env-file=.env --import tsx ./scripts/extract-videos.ts",
-    "categorize": "node --env-file=.env --import tsx ./scripts/process-tags.ts"
+    "categorize": "node --env-file=.env --import tsx ./scripts/process-tags.ts",
+    "seed": "node --env-file=.env --import tsx ./scripts/seed.ts",
+    "drop-db": "node --env-file=.env --import tsx ./scripts/drop-db.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
