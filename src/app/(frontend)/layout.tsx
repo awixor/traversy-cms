@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TopNav } from "@/components/top-nav";
 import { Sidebar } from "@/components/sidebar";
+import { MobileNav } from "@/components/mobile-nav";
+import { SidebarData } from "@/components/sidebar-data";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -39,7 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            <TopNav />
+            <TopNav mobileNavSlot={<MobileNav><SidebarData /></MobileNav>} />
             <div className="flex flex-1">
               <Sidebar />
               <main className="flex-1 overflow-auto">
