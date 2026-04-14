@@ -9,9 +9,12 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { SidebarContent } from "./sidebar-content";
 
-export function MobileNav() {
+interface MobileNavProps {
+  children: React.ReactNode;
+}
+
+export function MobileNav({ children }: MobileNavProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,7 +38,7 @@ export function MobileNav() {
             </SheetTitle>
           </SheetHeader>
           <div className="overflow-y-auto h-full">
-            <SidebarContent />
+            {children}
           </div>
         </SheetContent>
       </Sheet>

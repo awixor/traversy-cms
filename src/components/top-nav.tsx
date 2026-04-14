@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { MobileNav } from "./mobile-nav";
 
 function GithubIcon({ className }: { className?: string }) {
   return (
@@ -16,12 +15,16 @@ function GithubIcon({ className }: { className?: string }) {
   );
 }
 
-export function TopNav() {
+interface TopNavProps {
+  mobileNavSlot?: React.ReactNode;
+}
+
+export function TopNav({ mobileNavSlot }: TopNavProps) {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-sm">
       <div className="flex h-16 items-center gap-4 px-4">
         {/* Mobile menu */}
-        <MobileNav />
+        {mobileNavSlot}
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-semibold text-lg shrink-0">
