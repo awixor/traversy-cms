@@ -67,6 +67,8 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    videos: Video;
+    tags: Tag;
     'payload-kv': PayloadKv;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
@@ -75,6 +77,8 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    videos: VideosSelect<false> | VideosSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -114,6 +118,49 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: number;
+  title: string;
+  youtubeId: string;
+  description?: string | null;
+  publishedAt?: string | null;
+  tags?: (number | Tag)[] | null;
+  resources?:
+    | (
+        | {
+            language?: string | null;
+            code?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'codeSnippet';
+          }
+        | {
+            label?: string | null;
+            url?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalLink';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  name: string;
+  category?: ('language' | 'framework' | 'tool') | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -163,10 +210,19 @@ export interface User {
  */
 export interface PayloadLockedDocument {
   id: number;
-  document?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
+  document?:
+    | ({
+        relationTo: 'videos';
+        value: number | Video;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
@@ -208,6 +264,49 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  title?: T;
+  youtubeId?: T;
+  description?: T;
+  publishedAt?: T;
+  tags?: T;
+  resources?:
+    | T
+    | {
+        codeSnippet?:
+          | T
+          | {
+              language?: T;
+              code?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalLink?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

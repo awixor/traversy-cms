@@ -1,11 +1,13 @@
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { buildConfig } from "payload";
+import { Tags } from "./collections/tags";
+import { Videos } from "./collections/videos";
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
 
   // Define and configure your collections in this array
-  collections: [],
+  collections: [Videos, Tags],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || "",
