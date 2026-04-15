@@ -3,24 +3,13 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { SKILL_COLORS } from "@/lib/video-meta";
 
 const SKILL_LEVELS = [
-  {
-    label: "Beginner",
-    value: "beginner",
-    color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-  },
-  {
-    label: "Intermediate",
-    value: "intermediate",
-    color: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-  },
-  {
-    label: "Advanced",
-    value: "advanced",
-    color: "bg-red-500/20 text-red-400 border-red-500/30",
-  },
-];
+  { label: "Beginner",     value: "beginner"     },
+  { label: "Intermediate", value: "intermediate" },
+  { label: "Advanced",     value: "advanced"     },
+] as const;
 
 export function DifficultyFilter() {
   const router = useRouter();
@@ -73,7 +62,7 @@ export function DifficultyFilter() {
           <span
             className={cn(
               "rounded border px-1.5 py-0.5 text-[10px] font-medium leading-none",
-              level.color,
+              SKILL_COLORS[level.value],
             )}
           >
             {level.label}

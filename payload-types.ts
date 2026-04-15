@@ -136,6 +136,23 @@ export interface Video {
    * Video duration in seconds (e.g. 754 = 12m 34s).
    */
   duration?: number | null;
+  /**
+   * Auto-generated transcript segments from YouTube captions.
+   */
+  transcript?:
+    | {
+        text: string;
+        /**
+         * Start time in seconds
+         */
+        start: number;
+        /**
+         * End time in seconds
+         */
+        end: number;
+        id?: string | null;
+      }[]
+    | null;
   format?: ('crash_course' | 'project_build' | 'quick_tip' | 'live_stream' | 'podcast' | 'course' | 'other') | null;
   skillLevel?: ('beginner' | 'intermediate' | 'advanced') | null;
   tags?: (number | Tag)[] | null;
@@ -300,6 +317,14 @@ export interface VideosSelect<T extends boolean = true> {
   publishedAt?: T;
   thumbnail?: T;
   duration?: T;
+  transcript?:
+    | T
+    | {
+        text?: T;
+        start?: T;
+        end?: T;
+        id?: T;
+      };
   format?: T;
   skillLevel?: T;
   tags?: T;
