@@ -10,28 +10,26 @@ interface YTPlayer {
   destroy(): void;
 }
 
-interface YTWindow {
-  YT: {
-    Player: new (
-      el: HTMLElement,
-      opts: {
-        videoId: string;
-        width?: string | number;
-        height?: string | number;
-        playerVars?: Record<string, number>;
-        events?: {
-          onReady?: (e: { target: YTPlayer }) => void;
-          onStateChange?: (e: { data: number }) => void;
-        };
-      },
-    ) => YTPlayer;
-    PlayerState: { PLAYING: number };
-  };
-  onYouTubeIframeAPIReady: () => void;
-}
-
 declare global {
-  interface Window extends YTWindow {}
+  interface Window {
+    YT: {
+      Player: new (
+        el: HTMLElement,
+        opts: {
+          videoId: string;
+          width?: string | number;
+          height?: string | number;
+          playerVars?: Record<string, number>;
+          events?: {
+            onReady?: (e: { target: YTPlayer }) => void;
+            onStateChange?: (e: { data: number }) => void;
+          };
+        },
+      ) => YTPlayer;
+      PlayerState: { PLAYING: number };
+    };
+    onYouTubeIframeAPIReady: () => void;
+  }
 }
 
 interface YouTubePlayerProps {
