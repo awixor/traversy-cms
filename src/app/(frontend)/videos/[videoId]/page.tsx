@@ -10,10 +10,13 @@ import { RelatedVideos } from "@/components/related-videos";
 
 interface VideoDetailPageProps {
   params: Promise<{ videoId: string }>;
+  searchParams: Promise<{ t?: string }>;
 }
 
-export default async function VideoDetailPage({ params }: VideoDetailPageProps) {
+export default async function VideoDetailPage({ params, searchParams }: VideoDetailPageProps) {
   const { videoId } = await params;
+  const { t } = await searchParams;
+  const initialTime = t ? (parseFloat(t) || undefined) : undefined;
   const payload = await getPayload({ config: configPromise });
 
   const { docs } = await payload.find({
@@ -49,7 +52,7 @@ export default async function VideoDetailPage({ params }: VideoDetailPageProps) 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
       <BackButton />
-      <VideoDetailShell video={video} transcript={transcript} />
+      <VideoDetailShell video={video} transcript={transcript} initialTime={initialTime} />
 
       {/* Description */}
       {video.description && (
