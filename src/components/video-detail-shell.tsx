@@ -10,12 +10,24 @@ import type { Video } from "../../payload-types";
 interface VideoDetailShellProps {
   video: Video;
   transcript: NonNullable<Video["transcript"]>;
+  initialTime?: number;
 }
 
-export function VideoDetailShell({ video, transcript }: VideoDetailShellProps) {
+export function VideoDetailShell({ video, transcript, initialTime }: VideoDetailShellProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [player, setPlayer] = useState<YTPlayer | null>(null);
   const [transcriptOpen, setTranscriptOpen] = useState(true);
+
+  const handlePlayerReady = useCallback(
+    (p: YTPlayer) => {
+      setPlayer(p);
+      if (initialTime !== undefined) {
+        p.seekTo(initialTime, true);
+        p.playVideo();
+      }
+    },
+    [initialTime],
+  );
 
   const handleSeek = useCallback(
     (seconds: number) => {
@@ -32,7 +44,7 @@ export function VideoDetailShell({ video, transcript }: VideoDetailShellProps) {
         <YouTubePlayer
           videoId={video.videoId}
           onTimeUpdate={setCurrentTime}
-          onReady={setPlayer}
+          onReady={handlePlayerReady}
         />
 
         <h1 className="mt-4 text-xl font-bold leading-snug text-foreground">
