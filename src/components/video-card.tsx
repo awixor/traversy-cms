@@ -1,23 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SKILL_COLORS, FORMAT_LABELS } from "@/lib/video-meta";
 import type { Video } from "../../payload-types";
-
-const FORMAT_LABELS: Record<NonNullable<Video["format"]>, string> = {
-  crash_course: "Crash Course",
-  project_build: "Project Build",
-  quick_tip: "Quick Tip",
-  live_stream: "Live Stream",
-  podcast: "Podcast",
-  course: "Course",
-  other: "Other",
-};
-
-const SKILL_COLORS: Record<NonNullable<Video["skillLevel"]>, string> = {
-  beginner: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-  intermediate: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-  advanced: "bg-red-500/20 text-red-400 border-red-500/30",
-};
 
 function formatDuration(seconds: number) {
   if (!seconds) return null;
@@ -49,7 +34,7 @@ export function VideoCard({ video, shadowColor, priority = false }: VideoCardPro
 
   return (
     <Link
-      href={`/video/${videoId}`}
+      href={`/videos/${videoId}`}
       className="group relative flex flex-col overflow-hidden rounded-lg border border-border/50 bg-card transition-colors hover:border-border"
     >
       {/* Corner glow — bottom-right only */}

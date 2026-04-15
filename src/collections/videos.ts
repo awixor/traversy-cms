@@ -18,8 +18,7 @@ export const Videos: CollectionConfig = {
     },
     {
       name: "description",
-      type: "text",
-      //   type: "richText", // Payload v3 uses Lexical (very powerful editor)
+      type: "textarea",
     },
     {
       name: "publishedAt",
@@ -35,6 +34,28 @@ export const Videos: CollectionConfig = {
       admin: {
         description: "Video duration in seconds (e.g. 754 = 12m 34s).",
       },
+    },
+    {
+      name: "transcript",
+      type: "array",
+      admin: {
+        description: "Auto-generated transcript segments from YouTube captions.",
+      },
+      fields: [
+        { name: "text", type: "text", required: true },
+        {
+          name: "start",
+          type: "number",
+          required: true,
+          admin: { description: "Start time in seconds" },
+        },
+        {
+          name: "end",
+          type: "number",
+          required: true,
+          admin: { description: "End time in seconds" },
+        },
+      ],
     },
     // Classification Fields
     {
