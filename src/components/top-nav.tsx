@@ -29,7 +29,10 @@ export function TopNav({ mobileNavSlot, onSearchOpen }: TopNavProps) {
         {mobileNavSlot}
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 font-semibold text-lg shrink-0">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-semibold text-lg shrink-0"
+        >
           <span className="text-primary">Traversy</span>
           <span className="text-muted-foreground font-normal">CMS</span>
         </Link>
@@ -41,7 +44,7 @@ export function TopNav({ mobileNavSlot, onSearchOpen }: TopNavProps) {
 
         {/* GitHub link */}
         <Link
-          href="https://github.com/bradtraversy/traversy-media"
+          href="https://github.com/awixor/traversy-cms"
           target="_blank"
           rel="noopener noreferrer"
           className="ml-auto shrink-0 text-muted-foreground hover:text-foreground transition-colors"
