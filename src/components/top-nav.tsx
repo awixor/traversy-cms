@@ -34,7 +34,7 @@ export function TopNav({ mobileNavSlot, onSearchOpen }: TopNavProps) {
           className="flex items-center gap-2 font-semibold text-lg shrink-0"
         >
           <span className="text-primary">Traversy</span>
-          <span className="text-muted-foreground font-normal">CMS</span>
+          <span className="text-muted-foreground font-normal">Indexed</span>
         </Link>
 
         {/* Search trigger — centered */}
