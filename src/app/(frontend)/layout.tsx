@@ -2,10 +2,6 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { AppShell } from "@/components/app-shell";
-import { Sidebar } from "@/components/sidebar";
-import { MobileNav } from "@/components/mobile-nav";
-import { SidebarData } from "@/components/sidebar-data";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -41,16 +37,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex min-h-screen flex-col">
-            <AppShell mobileNavSlot={<MobileNav><SidebarData /></MobileNav>}>
-              <div className="flex flex-1">
-                <Sidebar />
-                <main className="flex-1 overflow-auto">
-                  <div className="mx-auto max-w-7xl px-4 py-6">
-                    {children}
-                  </div>
-                </main>
-              </div>
-            </AppShell>
+            {children}
           </div>
         </ThemeProvider>
       </body>
