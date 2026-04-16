@@ -1,12 +1,25 @@
 import { getPayload } from "payload";
 import configPromise from "@payload-config";
 import { VideoGrid } from "@/components/video-grid";
+import { SortBar } from "@/components/sort-bar";
+import { Pagination } from "@/components/pagination";
 import type { Where } from "payload";
+
+const LIMIT = 12;
+
+const SORT_MAP: Record<string, string> = {
+  date_desc: "-publishedAt",
+  date_asc: "publishedAt",
+  duration_asc: "duration",
+  duration_desc: "-duration",
+};
 
 interface HomeSearchParams {
   topic?: string | string[];
   skillLevel?: string;
   duration?: string;
+  sort?: string;
+  page?: string;
 }
 
 interface HomeProps {
@@ -14,7 +27,9 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const { topic, skillLevel, duration } = await searchParams;
+  const { topic, skillLevel, duration, sort, page } = await searchParams;
+
+  const currentPage = Math.max(1, parseInt(page ?? "1", 10) || 1);
 
   const payload = await getPayload({ config: configPromise });
 
@@ -40,12 +55,13 @@ export default async function Home({ searchParams }: HomeProps) {
     where.duration = { greater_than: 7200 };
   }
 
-  const [{ docs: videos }, { docs: allTopics }] = await Promise.all([
+  const [videosResult, { docs: allTopics }] = await Promise.all([
     payload.find({
       collection: "videos",
       where: Object.keys(where).length > 0 ? where : undefined,
-      sort: "-publishedAt",
-      limit: 100,
+      sort: SORT_MAP[sort ?? ""] ?? "-publishedAt",
+      limit: LIMIT,
+      page: currentPage,
     }),
     payload.find({
       collection: "topics",
@@ -54,9 +70,13 @@ export default async function Home({ searchParams }: HomeProps) {
     }),
   ]);
 
+  const { docs: videos, totalPages } = videosResult;
+
   return (
-    <main className="p-6">
+    <main className="p-6 space-y-4">
+      <SortBar />
       <VideoGrid videos={videos} allTopics={allTopics} />
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </main>
   );
 }

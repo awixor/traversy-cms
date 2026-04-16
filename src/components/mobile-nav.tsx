@@ -34,12 +34,13 @@ export function MobileNav({ children }: MobileNavProps) {
           <SheetHeader className="px-4 py-4 border-b border-border/40">
             <SheetTitle className="text-left text-base">
               <span className="text-primary">Traversy</span>
-              <span className="text-muted-foreground font-normal"> CMS</span>
+              <span className="text-muted-foreground font-normal">
+                {" "}
+                Indexed
+              </span>
             </SheetTitle>
           </SheetHeader>
-          <div className="overflow-y-auto h-full">
-            {children}
-          </div>
+          <div className="overflow-y-auto h-full">{children}</div>
         </SheetContent>
       </Sheet>
     </>

@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Traversy CMS",
+  title: "Traversy Indexed",
   description: "Browse Traversy Media tutorials",
 };
 
@@ -36,9 +36,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col">
-            {children}
-          </div>
+          <div className="flex min-h-screen flex-col">{children}</div>
         </ThemeProvider>
       </body>
     </html>
