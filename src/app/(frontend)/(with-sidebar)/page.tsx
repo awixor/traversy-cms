@@ -19,6 +19,7 @@ interface HomeSearchParams {
   skillLevel?: string;
   duration?: string;
   sort?: string;
+  type?: string;
   page?: string;
 }
 
@@ -27,7 +28,7 @@ interface HomeProps {
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const { topic, skillLevel, duration, sort, page } = await searchParams;
+  const { topic, skillLevel, duration, sort, type, page } = await searchParams;
 
   const currentPage = Math.max(1, parseInt(page ?? "1", 10) || 1);
 
@@ -47,6 +48,12 @@ export default async function Home({ searchParams }: HomeProps) {
     where.skillLevel = { equals: skillLevel };
   }
 
+  if (type === "short") {
+    where.duration = { less_than_equal: 120 };
+  } else if (type === "video") {
+    where.duration = { greater_than: 120 };
+  }
+
   if (duration === "quick") {
     where.duration = { less_than: 1800 };
   } else if (duration === "standard") {
@@ -55,27 +62,20 @@ export default async function Home({ searchParams }: HomeProps) {
     where.duration = { greater_than: 7200 };
   }
 
-  const [videosResult, { docs: allTopics }] = await Promise.all([
-    payload.find({
-      collection: "videos",
-      where: Object.keys(where).length > 0 ? where : undefined,
-      sort: SORT_MAP[sort ?? ""] ?? "-publishedAt",
-      limit: LIMIT,
-      page: currentPage,
-    }),
-    payload.find({
-      collection: "topics",
-      sort: "name",
-      limit: 50,
-    }),
-  ]);
+  const videosResult = await payload.find({
+    collection: "videos",
+    where: Object.keys(where).length > 0 ? where : undefined,
+    sort: SORT_MAP[sort ?? ""] ?? "-publishedAt",
+    limit: LIMIT,
+    page: currentPage,
+  });
 
   const { docs: videos, totalPages } = videosResult;
 
   return (
     <main className="p-6 space-y-4">
       <SortBar />
-      <VideoGrid videos={videos} allTopics={allTopics} />
+      <VideoGrid videos={videos} />
       <Pagination currentPage={currentPage} totalPages={totalPages} />
     </main>
   );

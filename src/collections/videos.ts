@@ -23,6 +23,7 @@ export const Videos: CollectionConfig = {
     {
       name: "publishedAt",
       type: "date",
+      index: true,
     },
     {
       name: "thumbnail",
@@ -31,6 +32,7 @@ export const Videos: CollectionConfig = {
     {
       name: "duration",
       type: "number",
+      index: true,
       admin: {
         description: "Video duration in seconds (e.g. 754 = 12m 34s).",
       },
@@ -74,6 +76,7 @@ export const Videos: CollectionConfig = {
     {
       name: "skillLevel",
       type: "select",
+      index: true,
       options: [
         { label: "Beginner", value: "beginner" },
         { label: "Intermediate", value: "intermediate" },

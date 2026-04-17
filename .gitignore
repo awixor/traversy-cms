@@ -46,6 +46,7 @@ next-env.d.ts
 traversy_categorized_data.json
 traversy_enriched_data.json
 traversy_raw_data.json
+traversy_checkpoint.json
 project-overview.md
 
 scripts/*.ts
@@ -55,3 +56,5 @@ scripts/*.ts
 .claude/
 
 context/
+
+migrations

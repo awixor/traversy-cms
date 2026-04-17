@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { TOPIC_COLOR_POOL } from "@/lib/topic-colors";
+import { getTopicColor } from "@/lib/topic-colors";
 
 export type Topic = { id: number; name: string };
 
@@ -30,8 +30,8 @@ export function TopicFilter({ topics }: TopicFilterProps) {
 
   return (
     <ul className="space-y-0.5">
-      {topics.map((topic, i) => {
-        const color = TOPIC_COLOR_POOL[i % TOPIC_COLOR_POOL.length];
+      {topics.map((topic) => {
+        const color = getTopicColor(topic.id);
         const id = String(topic.id);
         const isChecked = selected.includes(id);
 
@@ -50,16 +50,14 @@ export function TopicFilter({ topics }: TopicFilterProps) {
                 id={`topic-${id}`}
                 checked={isChecked}
                 onCheckedChange={() => toggle(id)}
-                className={cn(
-                  "h-3.5 w-3.5 rounded-sm border-muted-foreground/40",
-                  color.check,
-                )}
+                className="h-3.5 w-3.5 rounded-sm border-muted-foreground/40"
               />
               <span className="flex-1 leading-none capitalize">
                 {topic.name}
               </span>
               <span
-                className={cn("h-1.5 w-1.5 shrink-0 rounded-full", color.dot)}
+                className="h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ backgroundColor: color.hsl }}
               />
             </label>
           </li>

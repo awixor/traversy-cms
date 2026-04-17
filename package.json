@@ -12,7 +12,9 @@
     "categorize": "node --env-file=.env --import tsx ./scripts/process-tags.ts",
     "seed": "node --env-file=.env --import tsx ./scripts/seed.ts",
     "drop-db": "node --env-file=.env --import tsx ./scripts/drop-db.ts",
-    "seed-transcripts": "node --env-file=.env --import tsx ./scripts/seed-transcripts.ts"
+    "seed-transcripts": "node --env-file=.env --import tsx ./scripts/seed-transcripts.ts",
+    "cleanup-topics": "node --env-file=.env --import tsx ./scripts/cleanup-topics.ts",
+    "extract-process-seed-transcripts": "node --env-file=.env --import tsx ./scripts/extract-videos.ts && node --env-file=.env --import tsx ./scripts/process-tags.ts && node --env-file=.env --import tsx ./scripts/seed.ts && node --env-file=.env --import tsx ./scripts/seed-transcripts.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",

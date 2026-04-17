@@ -17,26 +17,16 @@ function EmptyState() {
   );
 }
 
-interface AllTopic {
-  id: number;
-  name: string;
-}
-
 interface VideoGridProps {
   videos: Video[];
-  allTopics: AllTopic[];
 }
 
-export function VideoGrid({ videos, allTopics }: VideoGridProps) {
-  const topicIndexMap = new Map(allTopics.map((t, i) => [t.id, i]));
-
+export function VideoGrid({ videos }: VideoGridProps) {
   function getShadowColor(video: Video): string | undefined {
     const first = video.topics?.[0];
     if (!first) return undefined;
     const id = typeof first === "number" ? first : first.id;
-    const idx = topicIndexMap.get(id);
-    if (idx === undefined) return undefined;
-    return getTopicColor(idx).hex;
+    return getTopicColor(id).hex;
   }
 
   return (
@@ -49,7 +39,7 @@ export function VideoGrid({ videos, allTopics }: VideoGridProps) {
             key={video.id}
             video={video}
             shadowColor={getShadowColor(video)}
-            priority={index === 0}
+            priority={index < 3}
           />
         ))
       )}

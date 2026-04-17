@@ -196,6 +196,10 @@ export interface Tag {
 export interface Topic {
   id: number;
   name: string;
+  /**
+   * Lower number = higher in sidebar (e.g. Frontend=1, Backend=2).
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -368,6 +372,7 @@ export interface TagsSelect<T extends boolean = true> {
  */
 export interface TopicsSelect<T extends boolean = true> {
   name?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }

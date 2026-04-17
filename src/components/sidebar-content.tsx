@@ -32,9 +32,9 @@ export function SidebarContent({ topics }: SidebarContentProps) {
         <ClearFilters />
       </div>
 
-      {/* Technology — multiselect */}
+      {/* Topics — multiselect */}
       <section>
-        <SectionLabel>Technology</SectionLabel>
+        <SectionLabel>Topics</SectionLabel>
         <TopicFilter topics={topics} />
       </section>
 

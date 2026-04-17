@@ -1,4 +1,4 @@
-# Traversy CMS
+# Traversy Indexed
 
 Minimal Next.js starter created with `pnpm`, `Tailwind CSS`, and the App Router.
 

@@ -8,7 +8,7 @@ export async function SidebarData() {
   const { docs: topics } = await payload.find({
     collection: "topics",
     limit: 50,
-    sort: "name",
+    sort: "order",
   });
 
   return <SidebarContent topics={topics} />;
