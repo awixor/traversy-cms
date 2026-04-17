@@ -22,14 +22,14 @@ export default async function VideoDetailPage({ params, searchParams }: VideoDet
     collection: "videos",
     where: { videoId: { equals: videoId } },
     limit: 1,
-    depth: 2,
+    depth: 1, // Reduced from 2
   });
 
   const video = docs[0] as Video | undefined;
   if (!video) notFound();
 
   const topicIds = (video.topics as Topic[])
-    ?.map((t) => t.id)
+    ?.map((t) => (typeof t === "number" ? t : t.id))
     .filter(Boolean) ?? [];
 
   const { docs: relatedDocs } = await payload.find({
@@ -42,7 +42,17 @@ export default async function VideoDetailPage({ params, searchParams }: VideoDet
     },
     limit: 4,
     sort: "-publishedAt",
-    depth: 2,
+    depth: 1, // Reduced from 2
+    select: {
+      id: true,
+      title: true,
+      videoId: true,
+      thumbnail: true,
+      duration: true,
+      format: true,
+      skillLevel: true,
+      publishedAt: true,
+    },
   });
 
   const relatedVideos = relatedDocs as Video[];
