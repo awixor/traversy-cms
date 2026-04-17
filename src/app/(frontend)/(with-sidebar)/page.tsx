@@ -3,6 +3,7 @@ import configPromise from "@payload-config";
 import { VideoGrid } from "@/components/video-grid";
 import { SortBar } from "@/components/sort-bar";
 import { Pagination } from "@/components/pagination";
+import { Suspense } from "react";
 import type { Where } from "payload";
 
 const LIMIT = 12;
@@ -85,9 +86,13 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <main className="p-6 space-y-4">
-      <SortBar />
+      <Suspense>
+        <SortBar />
+      </Suspense>
       <VideoGrid videos={videos} />
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+      <Suspense>
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
+      </Suspense>
     </main>
   );
 }
