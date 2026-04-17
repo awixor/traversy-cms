@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useFilterNav } from "./filter-nav-provider";
 
 type Option = {
   value: string;
@@ -59,6 +60,7 @@ function PillGroup({
 export function SortBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { startNav } = useFilterNav();
   const currentSort = searchParams.get("sort") ?? "date_desc";
   const currentType = searchParams.get("type") ?? "all";
 
@@ -69,7 +71,7 @@ export function SortBar() {
     } else {
       params.set(key, value);
     }
-    router.push(`?${params.toString()}`);
+    startNav(() => router.push(`?${params.toString()}`));
   }
 
   return (

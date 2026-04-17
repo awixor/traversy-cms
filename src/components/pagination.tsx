@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useFilterNav } from "./filter-nav-provider";
 
 interface PaginationProps {
   currentPage: number;
@@ -29,6 +30,7 @@ function getPageNumbers(current: number, total: number): (number | "…")[] {
 export function Pagination({ currentPage, totalPages }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { startNav } = useFilterNav();
 
   if (totalPages <= 1) return null;
 
@@ -39,7 +41,12 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
     } else {
       params.set("page", String(page));
     }
-    router.push(`?${params.toString()}`);
+    startNav(() => {
+      router.push(`?${params.toString()}`);
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
   }
 
   const pages = getPageNumbers(currentPage, totalPages);

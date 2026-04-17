@@ -2,12 +2,14 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
+import { useFilterNav } from "./filter-nav-provider";
 
 const FILTER_KEYS = ["topic", "skillLevel", "duration"];
 
 export function ClearFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { startNav } = useFilterNav();
 
   const hasFilters = FILTER_KEYS.some((key) => searchParams.has(key));
 
@@ -16,7 +18,7 @@ export function ClearFilters() {
   function clear() {
     const params = new URLSearchParams(searchParams.toString());
     FILTER_KEYS.forEach((key) => params.delete(key));
-    router.push(`?${params.toString()}`);
+    startNav(() => router.push(`?${params.toString()}`));
   }
 
   return (

@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useFilterNav } from "./filter-nav-provider";
 
 const DURATIONS = [
   { label: "Quick Tips", value: "quick", range: "< 30 min" },
@@ -12,6 +13,7 @@ const DURATIONS = [
 export function DurationFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { startNav } = useFilterNav();
   const selected = searchParams.get("duration") ?? "";
 
   function select(value: string) {
@@ -21,7 +23,7 @@ export function DurationFilter() {
     } else {
       params.set("duration", value);
     }
-    router.push(`?${params.toString()}`);
+    startNav(() => router.push(`?${params.toString()}`));
   }
 
   return (

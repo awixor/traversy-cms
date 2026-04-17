@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { SKILL_COLORS } from "@/lib/video-meta";
+import { useFilterNav } from "./filter-nav-provider";
 
 const SKILL_LEVELS = [
   { label: "Beginner",     value: "beginner"     },
@@ -14,6 +15,7 @@ const SKILL_LEVELS = [
 export function DifficultyFilter() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { startNav } = useFilterNav();
   const selected = searchParams.get("skillLevel") ?? "";
 
   function select(value: string) {
@@ -23,7 +25,7 @@ export function DifficultyFilter() {
     } else {
       params.set("skillLevel", value);
     }
-    router.push(`?${params.toString()}`);
+    startNav(() => router.push(`?${params.toString()}`));
   }
 
   return (

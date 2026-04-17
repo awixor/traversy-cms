@@ -6,6 +6,7 @@ import { Search, X } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { getTopicColor } from "@/lib/topic-colors";
+import { useFilterNav } from "./filter-nav-provider";
 
 export type Topic = { id: number; name: string };
 
@@ -16,6 +17,7 @@ interface TopicFilterProps {
 export function TopicFilter({ topics }: TopicFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { startNav } = useFilterNav();
   const selected = searchParams.getAll("topic");
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,7 +31,7 @@ export function TopicFilter({ topics }: TopicFilterProps) {
       : [...selected, id];
 
     next.forEach((t) => params.append("topic", t));
-    router.push(`?${params.toString()}`);
+    startNav(() => router.push(`?${params.toString()}`));
   }
 
   const filtered = query.trim()
