@@ -32,7 +32,7 @@ function PillGroup({
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="flex items-center gap-0.5 rounded-full border border-white/8 bg-white/3 p-0.5 backdrop-blur-sm">
+    <div className="flex items-center gap-0.5 rounded-full border border-white/8 bg-white/3 p-0.5 backdrop-blur-sm overflow-x-auto no-scrollbar max-w-full">
       {options.map((opt) => {
         const isActive = active === opt.value;
         return (
@@ -75,7 +75,7 @@ export function SortBar() {
   }
 
   return (
-    <div className="flex items-center gap-3 justify-end w-full">
+    <div className="flex flex-wrap items-center gap-3 justify-center sm:justify-end w-full">
       <PillGroup
         options={TYPE_OPTIONS}
         active={currentType}

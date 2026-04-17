@@ -143,3 +143,13 @@
   background-color: oklch(1 0 0 / 12%);
   border-radius: 9999px;
 }
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

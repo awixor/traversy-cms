@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { SearchTrigger } from "@/components/search-trigger";
 
 function GithubIcon({ className }: { className?: string }) {
@@ -23,7 +24,7 @@ interface TopNavProps {
 
 export function TopNav({ mobileNavSlot, onSearchOpen }: TopNavProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-md transition-all duration-300">
       <div className="flex h-16 items-center gap-4 px-4">
         {/* Mobile menu */}
         {mobileNavSlot}
@@ -31,10 +32,21 @@ export function TopNav({ mobileNavSlot, onSearchOpen }: TopNavProps) {
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 font-semibold text-lg shrink-0"
+          className="hidden lg:flex group items-center gap-2.5 font-semibold text-xl shrink-0 transition-opacity hover:opacity-90"
         >
-          <span className="text-primary">Traversy</span>
-          <span className="text-muted-foreground font-normal">Indexed</span>
+          <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-primary/5 transition-all duration-300 group-hover:bg-primary/10 group-hover:shadow-[0_0_20px_rgba(var(--primary),0.2)]">
+            <Image
+              src="/logo.png"
+              alt="Traversy Logo"
+              width={32}
+              height={32}
+              className="h-7 w-7 object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+              priority
+            />
+          </div>
+          <span className="text-muted-foreground font-semibold tracking-tight transition-colors duration-300 group-hover:text-foreground">
+            Index<span className="text-primary">ed</span>
+          </span>
         </Link>
 
         {/* Search trigger — centered */}
