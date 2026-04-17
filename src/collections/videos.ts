@@ -63,6 +63,7 @@ export const Videos: CollectionConfig = {
     {
       name: "format",
       type: "select",
+      index: true,
       options: [
         { label: "Crash Course", value: "crash_course" },
         { label: "Project Build", value: "project_build" },

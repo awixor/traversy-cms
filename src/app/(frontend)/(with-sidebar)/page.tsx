@@ -68,6 +68,17 @@ export default async function Home({ searchParams }: HomeProps) {
     sort: SORT_MAP[sort ?? ""] ?? "-publishedAt",
     limit: LIMIT,
     page: currentPage,
+    select: {
+      id: true,
+      title: true,
+      videoId: true,
+      thumbnail: true,
+      duration: true,
+      format: true,
+      skillLevel: true,
+      publishedAt: true,
+      topics: true,
+    },
   });
 
   const { docs: videos, totalPages } = videosResult;
