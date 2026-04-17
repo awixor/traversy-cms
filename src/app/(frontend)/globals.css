@@ -131,7 +131,7 @@
 
 .sidebar-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: oklch(0 0 0 / 15%) transparent;
+  scrollbar-color: oklch(1 0 0 / 12%) transparent;
 }
 .sidebar-scrollbar::-webkit-scrollbar {
   width: 4px;
@@ -140,12 +140,6 @@
   background: transparent;
 }
 .sidebar-scrollbar::-webkit-scrollbar-thumb {
-  background-color: oklch(0 0 0 / 15%);
-  border-radius: 9999px;
-}
-.dark .sidebar-scrollbar {
-  scrollbar-color: oklch(1 0 0 / 12%) transparent;
-}
-.dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
   background-color: oklch(1 0 0 / 12%);
+  border-radius: 9999px;
 }
