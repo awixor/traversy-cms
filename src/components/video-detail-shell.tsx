@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { YouTubePlayer, type YTPlayer } from "@/components/youtube-player";
 import { TranscriptSidebar } from "@/components/transcript-sidebar";
+import { TimestampedText } from "@/components/timestamped-text";
 import { cn } from "@/lib/utils";
 import { SKILL_COLORS, FORMAT_LABELS } from "@/lib/video-meta";
 import type { Video } from "../../payload-types";
@@ -11,9 +12,10 @@ interface VideoDetailShellProps {
   video: Video;
   transcript: NonNullable<Video["transcript"]>;
   initialTime?: number;
+  description?: string;
 }
 
-export function VideoDetailShell({ video, transcript, initialTime }: VideoDetailShellProps) {
+export function VideoDetailShell({ video, transcript, initialTime, description }: VideoDetailShellProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [player, setPlayer] = useState<YTPlayer | null>(null);
   const [transcriptOpen, setTranscriptOpen] = useState(true);
@@ -38,6 +40,7 @@ export function VideoDetailShell({ video, transcript, initialTime }: VideoDetail
   );
 
   return (
+    <>
     <div className="flex flex-col gap-6 lg:flex-row">
       {/* Player */}
       <div className="flex-1 min-w-0">
@@ -98,5 +101,16 @@ export function VideoDetailShell({ video, transcript, initialTime }: VideoDetail
         </div>
       )}
     </div>
+    {description && (
+      <div className="mt-8">
+        <h2 className="mb-3 text-base font-semibold text-foreground">Description</h2>
+        <TimestampedText
+          text={description}
+          className="text-sm text-muted-foreground"
+          onSeek={handleSeek}
+        />
+      </div>
+    )}
+    </>
   );
 }
