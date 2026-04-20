@@ -6,7 +6,7 @@ import { Videos } from "./collections/videos";
 import { Topics } from "./collections/topics";
 
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000",
+  serverURL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   editor: lexicalEditor(),
 
   // Define and configure your collections in this array
