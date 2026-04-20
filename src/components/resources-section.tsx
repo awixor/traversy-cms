@@ -8,14 +8,18 @@ interface ResourcesSectionProps {
   resources: Resource[];
 }
 
-async function CodeBlock({ language, code }: { language?: string | null; code: string }) {
-  const lang = (language ?? "plaintext") as string;
+async function CodeBlock({
+  language,
+  code,
+}: {
+  language?: string | null;
+  code: string;
+}) {
+  const lang = language ?? "plaintext";
   const html = await codeToHtml(code, {
     lang,
     theme: "github-dark",
-  }).catch(() =>
-    codeToHtml(code, { lang: "plaintext", theme: "github-dark" }),
-  );
+  }).catch(() => codeToHtml(code, { lang: "plaintext", theme: "github-dark" }));
 
   return (
     <div className="relative overflow-hidden rounded-lg border border-border/50">
@@ -37,18 +41,16 @@ export async function ResourcesSection({ resources }: ResourcesSectionProps) {
 
   return (
     <div className="mt-8">
-      <h2 className="mb-4 text-base font-semibold text-foreground">Resources</h2>
+      <h2 className="mb-4 text-base font-semibold text-foreground">
+        Resources
+      </h2>
 
       {codeSnippets.length > 0 && (
         <div className="flex flex-col gap-4">
           {codeSnippets.map((r, i) => {
             if (r.blockType !== "codeSnippet") return null;
             return (
-              <CodeBlock
-                key={i}
-                language={r.language}
-                code={r.code ?? ""}
-              />
+              <CodeBlock key={i} language={r.language} code={r.code ?? ""} />
             );
           })}
         </div>
