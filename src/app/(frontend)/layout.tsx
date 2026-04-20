@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Traversy Indexed",
     type: "website",
+    images: [{ url: "/og.webp", width: 1280, height: 720, alt: "Traversy Indexed" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og.webp"],
   },
 };
 
