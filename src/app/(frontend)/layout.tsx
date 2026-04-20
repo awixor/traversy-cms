@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -14,8 +15,17 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Traversy Indexed",
-  description: "Browse Traversy Media tutorials",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Traversy Indexed",
+    template: "%s | Traversy Indexed",
+  },
+  description:
+    "Browse and search Traversy Media tutorials by topic, difficulty, and duration.",
+  openGraph: {
+    siteName: "Traversy Indexed",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
