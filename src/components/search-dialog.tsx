@@ -138,7 +138,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                       src={video.thumbnail}
                       alt=""
                       width={48}
-                      height={27}
+                      height={36}
                       className="rounded shrink-0 object-cover"
                     />
                   )}

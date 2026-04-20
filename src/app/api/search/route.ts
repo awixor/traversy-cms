@@ -8,56 +8,51 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ byTitle: [], byTranscript: [] });
 
   const payload = await getPayload({ config });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pool = (payload.db as any).pool;
 
-  const [byTitle, byTranscript] = await Promise.all([
-    payload.find({
-      collection: "videos",
-      where: {
-        or: [{ title: { like: q } }, { description: { like: q } }],
-      },
-      limit: 5,
-      depth: 0,
-      select: {
-        id: true,
-        title: true,
-        videoId: true,
-        thumbnail: true,
-      },
-    }),
-    payload.find({
-      collection: "videos",
-      where: { "transcript.text": { like: q } },
-      limit: 5,
-      depth: 0,
-      select: {
-        id: true,
-        title: true,
-        videoId: true,
-        thumbnail: true,
-        transcript: true,
-      },
-    }),
+  const [titleResult, transcriptResult] = await Promise.all([
+    pool.query(
+      `SELECT id, title, video_id, thumbnail
+       FROM videos
+       WHERE search_meta @@ websearch_to_tsquery('english', $1)
+       LIMIT 5`,
+      [q],
+    ),
+    pool.query(
+      `WITH matching AS (
+         SELECT DISTINCT ON (_parent_id) _parent_id, text, start, "end"
+         FROM videos_transcript
+         WHERE text_vector @@ websearch_to_tsquery('english', $1)
+         ORDER BY _parent_id, _order
+       )
+       SELECT v.id, v.title, v.video_id, v.thumbnail,
+              m.text AS segment_text, m.start AS segment_start, m."end" AS segment_end
+       FROM matching m
+       JOIN videos v ON v.id = m._parent_id
+       LIMIT 5`,
+      [q],
+    ),
   ]);
 
-  // Strip transcript to only include matching segments for search results
-  const processedTranscriptResults = byTranscript.docs.map((video) => {
-    const matchingSegments = (video.transcript ?? []).filter((seg) =>
-      seg.text.toLowerCase().includes(q.toLowerCase()),
-    );
-    return {
-      ...video,
-      transcript: matchingSegments.slice(0, 1), // Only return the first matching segment
-    };
-  });
+  const titleIds = new Set(titleResult.rows.map((r: { id: number }) => r.id));
 
-  // Dedupe transcript results that already appear in title results
-  const titleIds = new Set(byTitle.docs.map((v) => v.id));
-  const uniqueTranscript = processedTranscriptResults.filter(
-    (v) => !titleIds.has(v.id),
-  );
+  const byTitle = titleResult.rows.map((r: { id: number; title: string; video_id: string; thumbnail: string }) => ({
+    id: r.id,
+    title: r.title,
+    videoId: r.video_id,
+    thumbnail: r.thumbnail,
+  }));
 
-  return NextResponse.json({
-    byTitle: byTitle.docs,
-    byTranscript: uniqueTranscript,
-  });
+  const byTranscript = transcriptResult.rows
+    .filter((r: { id: number }) => !titleIds.has(r.id))
+    .map((r: { id: number; title: string; video_id: string; thumbnail: string; segment_text: string; segment_start: number; segment_end: number }) => ({
+      id: r.id,
+      title: r.title,
+      videoId: r.video_id,
+      thumbnail: r.thumbnail,
+      transcript: [{ text: r.segment_text, start: r.segment_start, end: r.segment_end }],
+    }));
+
+  return NextResponse.json({ byTitle, byTranscript });
 }
